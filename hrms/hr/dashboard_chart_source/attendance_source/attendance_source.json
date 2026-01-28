@@ -1,0 +1,13 @@
+{
+ "creation": "2025-05-20 15:19:45.056529",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2025-05-20 15:19:45.056529",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Attendance Source",
+ "owner": "Administrator",
+ "source_name": "Attendance Source",
+ "timeseries": 1
+}

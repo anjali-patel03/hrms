@@ -1,0 +1,138 @@
+{
+ "app": "hrms",
+ "charts": [
+  {
+   "chart_name": "Employee Attendance Count",
+   "label": "Attendance Count"
+  }
+ ],
+ "content": "[{\"id\":\"QsYawEzMAZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Dashboard</span>\",\"col\":12}},{\"id\":\"xLhNGryujP\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Employee Detail Viewer\",\"col\":12}},{\"id\":\"XNC2pgg-EK\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Employee Extra\",\"col\":12}},{\"id\":\"NhjVxbrzcj\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Employee Attendance Heatmap\",\"col\":12}},{\"id\":\"I20U_MwxnY\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Attendance Count\",\"col\":12}},{\"id\":\"5sZ26a4mQ1\",\"type\":\"card\",\"data\":{\"card_name\":\"Attendance\",\"col\":4}},{\"id\":\"bSlRwLn8GD\",\"type\":\"card\",\"data\":{\"card_name\":\"Shift\",\"col\":4}},{\"id\":\"pLYow7SW_D\",\"type\":\"card\",\"data\":{\"card_name\":\"Leave\",\"col\":4}}]",
+ "creation": "2025-05-20 15:00:07.506582",
+ "custom_blocks": [
+  {
+   "custom_block_name": "Employee Detail Viewer",
+   "label": "Employee Detail Viewer"
+  },
+  {
+   "custom_block_name": "Employee Attendance Heatmap",
+   "label": "Employee Attendance Heatmap"
+  },
+  {
+   "custom_block_name": "Employee Extra",
+   "label": "Employee Extra"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dashboard",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Employee Dashboard",
+ "link_type": "DocType",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift Assignment",
+   "link_count": 0,
+   "link_to": "Shift Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift Request",
+   "link_count": 0,
+   "link_to": "Shift Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave Application",
+   "link_count": 0,
+   "link_to": "Leave Application",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 0,
+   "link_to": "Attendance",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance Request",
+   "link_count": 0,
+   "link_to": "Attendance Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Checkin",
+   "link_count": 0,
+   "link_to": "Employee Checkin",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-07-11 11:14:34.737405",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Employee Dashboard",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [],
+ "title": "Employee Dashboard",
+ "type": "Workspace"
+}

@@ -11,6 +11,9 @@
   },
   {
    "card": "Early Exit (This Month)"
+  },
+  {
+   "card": "Total Half Day (This Month)"
   }
  ],
  "charts": [
@@ -38,7 +41,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-08-21 18:12:38.531243",
+ "modified": "2026-01-19 11:46:01.502192",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Attendance",

@@ -15,7 +15,7 @@
  "hide_custom": 1,
  "icon": "expenses",
  "idx": 0,
- "is_hidden": 0,
+ "is_hidden": 1,
  "label": "Expense Claims",
  "links": [
   {
@@ -257,7 +257,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-01-15 16:41:35.604928",
+ "modified": "2025-11-30 17:27:10.335857",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Expense Claims",
