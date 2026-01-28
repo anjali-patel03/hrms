@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_guest_to_view": 1,
+ "allow_rename": 1,
+ "creation": "2025-05-19 16:48:39.872556",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "welcome_section",
+  "employee",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "welcome_section",
+   "fieldtype": "Section Break",
+   "label": "Welcome"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-05-19 20:01:22.096920",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Employee Dashboard",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

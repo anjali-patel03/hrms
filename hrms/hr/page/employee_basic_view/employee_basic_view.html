@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Basic View</title>
+    <script src="/assets/frappe/js/frappe.min.js"></script>
+    <link rel="stylesheet" href="/assets/frappe/css/bootstrap.css">
+    <style>
+        .employee-info { margin: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .employee-info h3 { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="employee-info">
+        <h3>Employee Basic Information</h3>
+        <p><strong>Name:</strong> <span id="employee_name">Loading...</span></p>
+        <p><strong>Employee ID:</strong> <span id="employee_id">Loading...</span></p>
+        <p><strong>Department:</strong> <span id="department">Loading...</span></p>
+        <p><strong>Designation:</strong> <span id="designation">Loading...</span></p>
+    </div>
+
+    <script>
+        frappe.ready(() => {
+            frappe.call({
+                method: "your_app.page.employee_basic_view.employee_basic_view.get_employee_info",
+                callback: function(response) {
+                    const data = response.message;
+                    document.getElementById("employee_name").innerText = data.employee_name;
+                    document.getElementById("employee_id").innerText = data.employee_id;
+                    document.getElementById("department").innerText = data.department;
+                    document.getElementById("designation").innerText = data.designation;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

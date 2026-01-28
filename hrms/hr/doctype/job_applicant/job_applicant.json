@@ -195,7 +195,7 @@
  "idx": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-16 13:06:05.312255",
+ "modified": "2025-06-27 11:01:45.845173",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Job Applicant",
@@ -214,6 +214,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "applicant_name, email_id, job_title, phone_number",
  "sender_field": "email_id",
  "sort_field": "creation",

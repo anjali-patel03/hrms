@@ -1,0 +1,36 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-19 20:16:30.038489",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_bhs6",
+  "data_test"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_bhs6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "data_test",
+   "fieldtype": "Small Text",
+   "label": "Check the Data"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-05-19 20:19:55.107910",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Base Dashboard",
+ "nsm_parent_field": "parent_base_dashboard",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
