@@ -235,7 +235,7 @@
  "icon": "fa fa-flag",
  "idx": 1,
  "links": [],
- "modified": "2024-12-18 19:51:44.162375",
+ "modified": "2025-12-15 12:28:17.021778",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Leave Type",
@@ -263,12 +263,9 @@
    "role": "HR Manager",
    "share": 1,
    "write": 1
-  },
-  {
-   "read": 1,
-   "role": "Employee"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
