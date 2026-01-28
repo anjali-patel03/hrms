@@ -7,14 +7,14 @@ app_license = "GNU General Public License (v3)"
 required_apps = ["frappe/erpnext"]
 source_link = "http://github.com/frappe/hrms"
 app_logo_url = "/assets/hrms/images/frappe-hr-logo.svg"
-app_home = "/app/overview"
+app_home = "/app/employee-dashboard"
 
 add_to_apps_screen = [
 	{
 		"name": "hrms",
 		"logo": "/assets/hrms/images/frappe-hr-logo.svg",
-		"title": "Frappe HR",
-		"route": "/app/overview",
+		"title": "BMC HR",
+		"route": "/app/employee-dashboard",
 		"has_permission": "hrms.hr.utils.check_app_permission",
 	}
 ]
@@ -26,6 +26,9 @@ add_to_apps_screen = [
 # app_include_css = "/assets/hrms/css/hrms.css"
 app_include_js = [
 	"hrms.bundle.js",
+	# "/assets/hrms/js/report_helper.js"
+	"/assets/hrms/js/hide_switcher_items.js",
+	"/assets/hrms/js/hide_employee_panel_items.js",
 ]
 app_include_css = "hrms.bundle.css"
 
@@ -55,6 +58,8 @@ doctype_js = {
 	"Journal Entry": "public/js/erpnext/journal_entry.js",
 	"Delivery Trip": "public/js/erpnext/delivery_trip.js",
 	"Bank Transaction": "public/js/erpnext/bank_transaction.js",
+
+	"Employee Checkin": "public/js/employee_checkin.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -133,11 +138,13 @@ before_app_uninstall = "hrms.setup.before_app_uninstall"
 # Permissions
 # -----------
 # Permissions evaluated in scripted ways
-
 # permission_query_conditions = {
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
+permission_query_conditions = {
+	"User": "hrms.overrides.user.user_permission_query",
+}
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
@@ -153,6 +160,9 @@ override_doctype_class = {
 	"Timesheet": "hrms.overrides.employee_timesheet.EmployeeTimesheet",
 	"Payment Entry": "hrms.overrides.employee_payment_entry.EmployeePaymentEntry",
 	"Project": "hrms.overrides.employee_project.EmployeeProject",
+	# CUSTOM OVERRIDES
+	"User": "hrms.overrides.user.CustomUser",
+	"Employee Checkin": "hrms.overrides.employee_checkin.CustomEmployeeCheckin",
 }
 
 # Document Events
@@ -237,9 +247,18 @@ scheduler_events = {
 		"hrms.hr.doctype.leave_ledger_entry.leave_ledger_entry.process_expired_allocation",
 		"hrms.hr.utils.generate_leave_encashment",
 		"hrms.hr.utils.allocate_earned_leaves",
+
+		# Custom Attendance Scheduler
+#	        "hrms.utils.scheduler_job.run_daily_contractual_attendance",
 	],
 	"weekly": ["hrms.controllers.employee_reminders.send_reminders_in_advance_weekly"],
-	"monthly": ["hrms.controllers.employee_reminders.send_reminders_in_advance_monthly"],
+	"monthly": ["hrms.controllers.employee_reminders.send_reminders_in_advance_monthly"]
+
+#	"cron": {
+#		"0 0 * * *": [
+#			"hrms.utils.scheduler_job.run_daily_contractual_attendance"
+#		]
+#	}
 }
 
 advance_payment_payable_doctypes = ["Leave Encashment", "Gratuity", "Employee Advance"]
@@ -298,6 +317,15 @@ global_search_doctypes = {
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
+override_whitelisted_methods = {
+    "hrms.api.custom_auth.custom_login": "hrms.api.custom_auth.custom_login",
+    "hrms.api.custom_logout.custom_logout": "hrms.api.custom_logout.custom_logout",
+    "hrms.api.create_company.company_creation_api": "hrms.api.create_company.company_creation_api",
+    # Custom user list
+#    "frappe.desk.reportview.get": "hrms.api.user_filter.get_filtered_users"
+ #   "hrms.hr.doctype.employee_checkin.employee_checkin.get_last_checkin": "hrms.overrides.employee_checkin.get_last_checkin"
+}
+
 override_doctype_dashboards = {
 	"Employee": "hrms.overrides.dashboard_overrides.get_dashboard_for_employee",
 	"Holiday List": "hrms.overrides.dashboard_overrides.get_dashboard_for_holiday_list",
@@ -363,3 +391,8 @@ company_data_to_be_ignored = [
 	"Employee Onboarding Template",
 	"Employee Separation Template",
 ]
+
+rate_limit = {
+    "limit": 100000,   # Adjust this value as needed
+    "window": 60    # Time window in seconds (60 seconds)
+}
