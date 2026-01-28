@@ -15,6 +15,7 @@
   "device_id",
   "skip_auto_attendance",
   "attendance",
+  "checkin_source",
   "location_section",
   "latitude",
   "column_break_yqpi",
@@ -174,10 +175,16 @@
    "hidden": 1,
    "label": "Off-shift",
    "read_only": 1
+  },
+  {
+   "fieldname": "checkin_source",
+   "fieldtype": "Data",
+   "label": "Source",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2025-03-05 15:36:10.014354",
+ "modified": "2026-01-23 13:26:29.288458",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Employee Checkin",
@@ -272,6 +279,7 @@
    "role": "Employee"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "ASC",
  "states": [],

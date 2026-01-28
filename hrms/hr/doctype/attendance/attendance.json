@@ -3,6 +3,7 @@
  "allow_import": 1,
  "autoname": "naming_series:",
  "creation": "2013-01-10 16:34:13",
+ "default_view": "List",
  "doctype": "DocType",
  "document_type": "Setup",
  "engine": "InnoDB",
@@ -217,7 +218,7 @@
  "idx": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-06 15:15:13.866304",
+ "modified": "2026-01-16 11:24:03.965412",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Attendance",
@@ -276,6 +277,7 @@
    "share": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "employee,employee_name,attendance_date,status",
  "sort_field": "creation",
  "sort_order": "DESC",

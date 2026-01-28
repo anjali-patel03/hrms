@@ -30,6 +30,7 @@ class EmployeeCheckin(Document):
 		self.fetch_shift()
 		self.set_geolocation()
 		self.validate_distance_from_shift_location()
+		self.validate_edit_permissions()   # UPDATE
 
 	def validate_duplicate_log(self):
 		doc = frappe.db.exists(
@@ -91,6 +92,8 @@ class EmployeeCheckin(Document):
 			self.shift_end = shift_actual_timings.end_datetime
 
 	def validate_distance_from_shift_location(self):
+		if self.checkin_source == "Biometric":
+		        return
 		if not frappe.db.get_single_value("HR Settings", "allow_geolocation_tracking"):
 			return
 
@@ -126,6 +129,22 @@ class EmployeeCheckin(Document):
 				exc=CheckinRadiusExceededError,
 			)
 
+	def validate_edit_permissions(self):
+		# Allow HR roles to edit freely
+		if any(role in frappe.get_roles() for role in ("HR User", "HR Manager", "Manager")):
+			return
+
+		# Only restrict edits, not new records
+		if self.is_new():
+			return
+
+		old = frappe.get_doc(self.doctype, self.name)
+
+		# Block changes to check-in / check-out meaning
+		if self.time != old.time or self.log_type != old.log_type:
+			frappe.throw(
+				_("You cannot edit check-in / check-out once it is created.")
+			)
 
 @frappe.whitelist()
 def add_log_based_on_employee_field(
@@ -397,3 +416,4 @@ def update_attendance_in_checkins(log_names: list, attendance_id: str):
 		.set("attendance", attendance_id)
 		.where(EmployeeCheckin.name.isin(log_names))
 	).run()
+
