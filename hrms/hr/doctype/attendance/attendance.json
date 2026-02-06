@@ -29,7 +29,9 @@
   "column_break_18",
   "late_entry",
   "early_exit",
-  "amended_from"
+  "amended_from",
+  "shift_window",
+  "overtime_hours"
  ],
  "fields": [
   {
@@ -212,13 +214,27 @@
    "label": "Status for Other Half",
    "no_copy": 1,
    "options": "\nPresent\nAbsent"
+  },
+  {
+   "depends_on": "shift",
+   "fieldname": "shift_window",
+   "fieldtype": "Data",
+   "label": "Shift Window",
+   "read_only": 1
+  },
+  {
+   "depends_on": "shift",
+   "fieldname": "overtime_hours",
+   "fieldtype": "Float",
+   "label": "Overtime Hours",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-ok",
  "idx": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-01-16 11:24:03.965412",
+ "modified": "2026-02-02 18:29:54.495546",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Attendance",
