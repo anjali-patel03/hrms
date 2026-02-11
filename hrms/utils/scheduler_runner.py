@@ -15,7 +15,7 @@ def run():
     try:
         run_daily_contractual_attendance()
         run_daily_4hr_attendance()
-#        run_daily_7_8hr_attendance()
+        run_daily_7_8hr_attendance()
         run_daily_nursing_attendance()
     finally:
         frappe.destroy()
