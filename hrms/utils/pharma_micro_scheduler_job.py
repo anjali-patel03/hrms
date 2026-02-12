@@ -12,7 +12,6 @@ GRACE_MINUTES = 15
 MAX_SHIFT_HOURS = 12
 
 # LOGGING SETUP
-
 LOG_FILE = os.path.join(
     frappe.get_site_path(), "logs", "pharma_micro_attendance.log"
 )
@@ -49,7 +48,7 @@ for emp in PHARMACY_GROUP_1:
         "all": [
             ("7AM-7PM", time(7, 0), time(19, 0), 12),
             ("8AM-3PM", time(8, 0), time(15, 0), 7),
-            ("9:30AM-4:30PM", time(9, 30), time(16, 30), 7),
+        ("9:30AM-4:30PM", time(9, 30), time(16, 30), 7),
             ("10:30AM-5:30PM", time(10, 30), time(17, 30), 7),
             ("12PM-7PM", time(12, 0), time(19, 0), 7),
             ("2PM-9PM", time(14, 0), time(21, 0), 7),
@@ -78,15 +77,15 @@ for emp in MICRO_GROUP_1:
 
 # MICROBIOLOGY – GROUP 2
 MICRO_GROUP_2=[
-    "HR-EMP-12514"# Pranya Gokul Patil
+    "HR-EMP-12514", # Pranya Gokul Patil
     "HR-EMP-09732", # Karuna Satish Sapkale
     "HR-EMP-09731", # Priyanka Harishchandra Zarkar
     "HR-EMP-09734", # Neelofar Lal Mohammad Shaikh
     "HR-EMP-08290", # Bhakti Yogendra Shirsath
     "HR-EMP-08288", # Arshi Mohmmad Ajaj Shaikh
-    ] 
+    ]
 for emp in MICRO_GROUP_2:
-    EMPLOYEE_WINDOWS[emp]= { 
+    EMPLOYEE_WINDOWS[emp]= {
     "all": [
         ("9AM-4PM", time(9, 0), time(16, 0), 7),
         ("2PM-9PM", time(14, 0), time(21, 0), 7),
@@ -97,7 +96,7 @@ for emp in MICRO_GROUP_2:
 # BLOOD BANK
 BLOOD_BANK_GROUP = [
     "HR-EMP-12722", # Abhay Mahendra Tambe
-    "HR-EMP-12724", # Omkar Shyamsunder Gurav
+    "HR-EMP-08186", # Omkar Shyamsunder Gurav
     "HR-EMP-12703", # Ranjit Rajaram Sabale
     "HR-EMP-12728", # Rohini Vikas Pimpale
     "HR-EMP-09728", # Priyanka J Jadhav
@@ -120,9 +119,38 @@ EMPLOYEE_WINDOWS["HR-EMP-14645"] = { # Shrutika Prabhakar Kadam
     ]
 }
 
+# EMPLOYEE_WINDOWS["HR-EMP-12507"] = { # SAKSHI ASHOK GAIKWAD
+#     "all": [
+#         ("7AM-2PM", time(7, 0), time(14, 0), 7),
+#         ("8AM-3PM", time(8, 0), time(15, 0), 7),
+#         ("11AM-6PM", time(11, 0), time(18, 0), 7),
+#         ("1PM-8PM", time(13, 0), time(20, 0), 7),
+#         ("3PM-10PM", time(15, 0), time(22, 0), 7),
+#         ("11PM-6AM", time(23, 0), time(6, 0), 7),
+#     ]
+# }
+
+BIO_ELAB_GROUP = [
+   "HR-EMP-10783", # PATHAN_SAJMA_MEHBOOB
+  # "", # SHAMIKA_SATISH_KARDE
+]
+
+for emp in BIO_ELAB_GROUP:
+   EMPLOYEE_WINDOWS[emp] = {
+       "all": [
+           ("7AM-2PM", time(7, 0), time(14, 0), 7),
+           ("9AM-4PM", time(9, 0), time(16, 0), 7),
+           ("11AM-6PM", time(11, 0), time(18, 0), 7),
+           ("1PM-8PM", time(13, 0), time(20, 0), 7),
+           ("3PM-10PM", time(15, 0), time(22, 0), 7),
+           ("11PM-6AM", time(23, 0), time(6, 0), 7),
+       ]
+   }
+
 # BIOCHEMISTRY
 BIOCHEM_GROUP = [
     "HR-EMP-10833", # Akanksha Ashok Pawar
+   # "HR-EMP-12406", # MANJUSHREE MALLIKARJUN BANSODE
     "HR-EMP-12482", # Shwetali Ramchandra Dudam
     "HR-EMP-12491", # Shivani Rajendra Udage
     "HR-EMP-09135", # Chormule Tejashree Gorakh
@@ -139,15 +167,15 @@ BIOCHEM_GROUP = [
 for emp in BIOCHEM_GROUP:
     EMPLOYEE_WINDOWS[emp] = {
         "all": [
-            ("9:30AM-4:30PM", time(9, 30), time(16, 30), 7), 
-            ("9:30AM-1PM", time(9, 30), time(13, 0), 3.5), 
+            ("9:30AM-4:30PM", time(9, 30), time(16, 30), 7),
+            ("9:30AM-1PM", time(9, 30), time(13, 0), 3.5),
         ]
-    }
+}
 
 # SCHEDULER ENTRY
 def run_daily_pharma_attendance():
     today = getdate()
-    start_date = today - timedelta(days=10)
+    start_date = today - timedelta(days=3)
 
     logger.info("=" * 80)
     logger.info(f"START PHARMA | window={start_date} → {today}")
@@ -171,7 +199,6 @@ def run_daily_pharma_attendance():
         emp_logs[c.employee].append(c)
 
     for employee, logs in emp_logs.items():
-#        frappe.db.begin()
         try:
             logger.info(f"PROCESSING EMPLOYEE {employee} | logs={len(logs)}")
             _process_pharma_employee(employee, logs)
@@ -185,101 +212,99 @@ def run_daily_pharma_attendance():
 
 # CORE LOGIC
 def _process_pharma_employee(employee, logs):
-    # Ensure logs are in order
     logs.sort(key=lambda x: x.time)
-    # Group logs by date
-    daily = defaultdict(list)
-    for l in logs:
-        daily[getdate(l.time)].append(l)
+    daily_logs = defaultdict(list)
+    for log in logs:
+        daily_logs[getdate(log.time)].append(log)
 
     windows_cfg = EMPLOYEE_WINDOWS.get(employee)
     if not windows_cfg:
         logger.warning(f"{employee} | No shift windows configured.")
         return
 
-    # Process each day
-    for att_date, day_logs in sorted(daily.items()):
+    for att_date, day_logs in sorted(daily_logs.items()):
         if frappe.db.exists("Attendance", {"employee": employee, "attendance_date": att_date, "docstatus": ["<", 2]}):
             logger.info(f"{employee} | {att_date} | SKIP: Attendance already exists.")
             continue
 
-        ins = [l for l in day_logs if l.log_type == "IN"]
+        ins = [log for log in day_logs if log.log_type == "IN"]
         for first_in in ins:
-            matched = None
-            for label, start, end, target_hours in windows_cfg.get("all", []):
-                if _in_matches_window(first_in.time, att_date, start):
-                    matched = (label, start, end, target_hours)
-                    break
-
-            if not matched: 
+            matched = _match_shift_window(first_in.time, att_date, windows_cfg)
+            if not matched:
+                logger.info(f"{employee} | {att_date} | OFFSHIFT IN")
+                _mark_offshift(ins, employee, att_date)
                 continue
 
             label, start, end, target_hours = matched
             start_dt = datetime.combine(att_date, start)
             end_dt = datetime.combine(att_date, end)
-            if end <= start: end_dt += timedelta(days=1)
+            if end <= start:
+                end_dt += timedelta(days=1)
 
-            # SEARCH FOR OUT PUNCH
-            valid_outs = [o for o in logs if o.log_type == "OUT" and first_in.time < o.time <= end_dt + timedelta(hours=12)]
+            valid_outs = [log for log in logs if log.log_type == "OUT" and first_in.time < log.time <= end_dt + timedelta(hours=12)]
             if not valid_outs:
-                logger.warning(f"{employee} | {att_date} | {label} | FAILED: No valid OUT found.")
+                logger.info(f"{employee} | {att_date} | {label} | No valid OUT found.")
                 continue
             last_out = valid_outs[-1]
 
-            # WORK DURATION CHECK
-            worked_hours = (last_out.time - first_in.time).total_seconds() / 3600
-            status = "Present"
-            comment = f"Shift: {label}"
-            late_entry = False
-            early_exit = False
+            hours = (last_out.time - first_in.time).total_seconds() / 3600
+            status, comment, late_entry, early_exit = _evaluate_shift_performance(
+                employee, att_date, first_in, last_out, start_dt, end_dt, target_hours, hours
+            )
 
-            if worked_hours < (target_hours / 2):
-                # RULE: Under 50% is a Half Day, NO grace counter update
-                status = "Half Day"
-                comment = "Marked Half Day: Working hours less than Shift Hours."
-                logger.info(f"{employee} | {att_date} | Under 50% Rule applied. Skipping grace check.")
-            else:
-                # --- 2. GRACE VIOLATION & DATABASE COUNTER ---
-                # Only check grace if they passed the 50% work threshold
-                late_entry = first_in.time > (start_dt + timedelta(minutes=GRACE_MINUTES))
-                early_exit = last_out.time < (end_dt - timedelta(minutes=GRACE_MINUTES))
+            overtime_hours = _calculate_overtime(last_out.time, end_dt)
 
-                if late_entry or early_exit:
-                    # Update database counter
-                    current_count = frappe.db.get_value("Employee", employee, "monthly_grace_count") or 0
-                    new_count = current_count + 1
-                    frappe.db.set_value("Employee", employee, "monthly_grace_count", new_count)
-
-                    if new_count > 3:
-                        status = "Half Day"
-                        comment = "Marked Half Day: Grace limit exceeded."
-                    else:
-                        comment = (f"Grace counter increased: Due to grace violation on {att_date}.")
-                    logger.info(f"{employee} | {att_date} | GRACE TRIGGERED: New Count = {new_count}")
-
-            # OVERTIME CALCULATION
-            overtime_hours = 0
-            ot_limit = end_dt + timedelta(minutes=GRACE_MINUTES)
-            if last_out.time > ot_limit:
-                overtime_hours = round((last_out.time - ot_limit).total_seconds() / 3600, 2)
-
-            # CREATE ATTENDANCE
             _create_attendance(
                 employee, att_date, first_in, last_out,
-                worked_hours, late_entry, early_exit, overtime_hours, status, matched, comment
+                hours, late_entry, early_exit, overtime_hours, status, matched, comment
             )
             break
 
-    # Handle Orphan logs
+    _handle_orphan_logs(employee, logs)
+
+# HELPER FUNCTIONS
+def _match_shift_window(checkin_time, att_date, windows_cfg):
+    for label, start, end, target_hours in windows_cfg.get("all", []):
+        if _in_matches_window(checkin_time, att_date, start):
+            return label, start, end, target_hours
+    return None
+
+def _evaluate_shift_performance(employee, att_date, first_in, last_out, start_dt, end_dt, target_hours, hours):
+    status = "Present"
+    comment = None
+    late_entry = first_in.time > (start_dt + timedelta(minutes=GRACE_MINUTES))
+    early_exit = last_out.time < (end_dt - timedelta(minutes=GRACE_MINUTES))
+
+    if hours < (target_hours / 2):
+        status = "Half Day"
+        comment = "Marked Half Day: Working hours less than Shift Hours."
+        logger.info(f"{employee} | {att_date} | Under 50% Rule applied. Skipping grace check.")
+    elif late_entry or early_exit:
+        current_count = frappe.db.get_value("Employee", employee, "monthly_grace_count") or 0
+        new_count = current_count + 1
+        frappe.db.set_value("Employee", employee, "monthly_grace_count", new_count)
+
+        if new_count > 3:
+            status = "Half Day"
+            comment = "Marked Half Day: Grace limit exceeded."
+        else:
+            comment = (f"Grace counter increased: Due to grace violation on {att_date}.")
+        logger.info(f"{employee} | {att_date} | GRACE TRIGGERED: New Count = {new_count}")
+
+    return status, comment, late_entry, early_exit
+
+def _calculate_overtime(last_out_time, end_dt):
+    ot_limit = end_dt + timedelta(minutes=GRACE_MINUTES)
+    if last_out_time > ot_limit:
+        return round((last_out_time - ot_limit).total_seconds() / 3600, 2)
+    return 0
+
+def _handle_orphan_logs(employee, logs):
     now = datetime.now()
     for log in logs:
         log_date = getdate(log.time)
-        if (now - log.time).total_seconds() > 48 * 3600:  # Check if log is older than 48 hours
-            if frappe.db.exists("Attendance", {
-                "employee": employee,
-                "attendance_date": log_date,
-                "docstatus": ["<", 2],
-            }):
+        if (now - log.time).total_seconds() > 48 * 3600:
+            if frappe.db.exists("Attendance", {"employee": employee, "attendance_date": log_date, "docstatus": ["<", 2]}):
                 continue
 
             logger.info(f"{employee} | {log_date} | Marking Absent due to orphan log")
@@ -287,13 +312,11 @@ def _process_pharma_employee(employee, logs):
                 employee, log_date, None, None,
                 hours=0, late=False, early=False,
                 ot=0, status="Absent", matched=None,
-                comment="Marked Absent: Orphan log older than 48 hours"
+                comment="Marked Absent: Orphan log older than 48 hours."
             )
         else:
             logger.info(f"{employee} | {log_date} | Skipping orphan log: Within 48 hours window")
 
-
-# HELPERS
 def _in_matches_window(checkin_time, att_date, shift_start_time):
     shift_start_dt = datetime.combine(att_date, shift_start_time)
     return (shift_start_dt - timedelta(hours=0.5)) <= checkin_time <= (shift_start_dt + timedelta(hours=0.5))
@@ -318,23 +341,22 @@ def _create_attendance(employee, att_date, first_in, last_out, hours, late, earl
             "late_entry": 1 if late else 0,
             "early_exit": 1 if early else 0,
         })
+        att.insert(ignore_permissions=True)
+        att.submit()
         if comment:
             att.add_comment("Comment", comment)
 
-        att.insert(ignore_permissions=True)
-        att.submit()
         logger.info(f"Attendance Created: {employee} on {att_date}")
-        # Link check-ins using first_in and last_out
         if first_in and last_out:
             frappe.db.set_value("Employee Checkin", {"name": ["in", [first_in.name, last_out.name]]}, "attendance", att.name)
     except Exception as e:
         logger.error(f"Error creating attendance for {employee}: {str(e)}")
 
 def _mark_offshift(logs, employee, att_date):
-    # Just log it or set a remark on the checkin
-    for l in logs:
-        frappe.db.set_value("Employee Checkin", l.name, "custom_remark", f"Off-shift log on {att_date}")
-        frappe.get_doc("Employee Checkin", l.name).add_comment(
+    for log in logs:
+        frappe.db.set_value("Employee Checkin", log.name, "offshift", 1)
+        frappe.get_doc("Employee Checkin", log.name).add_comment(
             "Comment",
-            f"Off-shift: IN did not match any 7–8 hr window on {att_date}"
+            f"Off-shift: IN did not match any shift window on {att_date}."
         )
+        logger.info(f"{employee} | {att_date} | Off-shift log marked.")
