@@ -60,7 +60,7 @@ for emp in ENDO_GROUP:
 
 # BIOCHEMISTRY – E-LAB
 BIO_ELAB_GROUP = [
-    # Add employee IDs here
+    "HR-EMP-12507" # SAKSHI ASHOK GAIKWAD
 ]
 
 for emp in BIO_ELAB_GROUP:
@@ -74,6 +74,21 @@ for emp in BIO_ELAB_GROUP:
             ("11PM-6AM", time(23, 0), time(6, 0), 7),
         ]
     }
+
+BIOCHEMISTRY = [
+    "HR-EMP-12406" # MANJUSHREE MALLIKARJUN BANSODE
+]
+
+for emp in BIOCHEMISTRY:
+    EMPLOYEE_WINDOWS[emp] = {
+        "all": [
+            ("7AM-2PM", time(7, 0), time(14, 0), 7),
+            ("2PM-9PM", time(14, 0), time(21, 0), 7),
+            ("9PM-7AM", time(21, 0), time(7, 0), 10),
+            ("11AM-6PM", time(11, 0), time(18, 0), 7),
+        ]
+    }
+
 
 # SCHEDULER ENTRY
 def run_daily_lab_elab_attendance():
